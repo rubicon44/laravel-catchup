@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    container_name: db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: laravel-catchup-db
+    volumes:
+      - ./db-data:/var/lib/db/data
+      - ./sql:/sql-scripts
+    ports:
+      - '5432:5432'
+
+  app:
+    container_name: app
+    build:
+      context: .
+    ports:
+      - '8080:80'
+    volumes:
+      - .:/var/www
+      - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - db
