@@ -6,6 +6,7 @@ services:
     container_name: db
     restart: unless-stopped
     environment:
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: laravel-catchup-db
     volumes:
